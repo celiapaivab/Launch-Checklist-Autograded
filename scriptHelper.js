@@ -43,30 +43,38 @@ function formSubmission(document, list, pilot, copilot, fuelLevel, cargoLevel) {
         alert("Invalid input!");
         return;
     }
-    //Updating Shuttle Requirements
     document.getElementById("pilotStatus").textContent = `Pilot ${pilot} is ready for launch`;
     document.getElementById("copilotStatus").textContent = `Co-pilot ${copilot} is ready for launch`;
 
-    if (parseInt(fuelLevel) < 10000) {
+    //Updating Shuttle Requirements
+    if (parseInt(fuelLevel) < 10000 && parseInt(cargoLevel) >= 10000) {
         document.getElementById("fuelStatus").textContent = "Fuel level too low for launch";
+        document.getElementById("cargoStatus").textContent = "Cargo mass too heavy for launch";
         document.getElementById("faultyItems").style.visibility = "visible";
         document.getElementById("launchStatus").textContent = "Shuttle Not Ready for Launch";
         document.getElementById("launchStatus").style.color = "red";
         return;
-    } else {
+    } else if (parseInt(fuelLevel) < 10000 && parseInt(cargoLevel) < 10000){
+        document.getElementById("fuelStatus").textContent = "Fuel level too low for launch";
+        document.getElementById("cargoStatus").textContent = "Cargo mass low enough for launch";
+        document.getElementById("faultyItems").style.visibility = "visible";
+        document.getElementById("launchStatus").textContent = "Shuttle Not Ready for Launch";
+        document.getElementById("launchStatus").style.color = "red";
+        return;
+    } else if (parseInt(fuelLevel) >= 10000 && parseInt(cargoLevel) >= 10000){
         document.getElementById("fuelStatus").textContent = "Fuel level high enough for launch";
-    }
-    if (parseInt(cargoLevel) > 10000) {
         document.getElementById("cargoStatus").textContent = "Cargo mass too heavy for launch";
         document.getElementById("faultyItems").style.visibility = "visible";
         document.getElementById("launchStatus").textContent = "Shuttle Not Ready for Launch";
         document.getElementById("launchStatus").style.color = "red";
         return;
     } else {
+        document.getElementById("fuelStatus").textContent = "Fuel level high enough for launch";
         document.getElementById("cargoStatus").textContent = "Cargo mass low enough for launch";
+        document.getElementById("launchStatus").textContent = "Shuttle is Ready for Launch";
+        document.getElementById("launchStatus").style.color = "green";
+        return;
     }
-    document.getElementById("launchStatus").textContent = "Shuttle is Ready for Launch";
-    document.getElementById("launchStatus").style.color = "green";
 }
 
 async function myFetch() {
@@ -89,3 +97,29 @@ module.exports.validateInput = validateInput;
 module.exports.formSubmission = formSubmission;
 module.exports.pickPlanet = pickPlanet; 
 module.exports.myFetch = myFetch;
+
+
+
+// document.getElementById("pilotStatus").textContent = `Pilot ${pilot} is ready for launch`;
+// document.getElementById("copilotStatus").textContent = `Co-pilot ${copilot} is ready for launch`;
+
+// if (parseInt(fuelLevel) < 10000) {
+//     document.getElementById("fuelStatus").textContent = "Fuel level too low for launch";
+//     document.getElementById("faultyItems").style.visibility = "visible";
+//     document.getElementById("launchStatus").textContent = "Shuttle Not Ready for Launch";
+//     document.getElementById("launchStatus").style.color = "red";
+//     return;
+// } else {
+//     document.getElementById("fuelStatus").textContent = "Fuel level high enough for launch";
+// }
+// if (parseInt(cargoLevel) > 10000) {
+//     document.getElementById("cargoStatus").textContent = "Cargo mass too heavy for launch";
+//     document.getElementById("faultyItems").style.visibility = "visible";
+//     document.getElementById("launchStatus").textContent = "Shuttle Not Ready for Launch";
+//     document.getElementById("launchStatus").style.color = "red";
+//     return;
+// } else {
+//     document.getElementById("cargoStatus").textContent = "Cargo mass low enough for launch";
+// }
+// document.getElementById("launchStatus").textContent = "Shuttle is Ready for Launch";
+// document.getElementById("launchStatus").style.color = "green";
